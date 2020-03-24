@@ -86,7 +86,7 @@ def import_data(dataset_path, dataset_version):
             
     return data
 
-def exist_hashtag(path):
+def exist_hashtag(path, type='csv'):
     df_tags = pd.DataFrame(columns=['hashtag', 'topic'])
     for top, dirs, files in os.walk(path):
         for nm in files:  
@@ -95,4 +95,6 @@ def exist_hashtag(path):
             hash_list = [value.strip() for value in hash_list if value != '']
             d = {'hashtag': hash_list, 'topic': nm[:-4]}
             df_tags= df_tags.append(pd.DataFrame(data=d), ignore_index=True)
-    return df_tags
+    if type == 'json':
+        df_tags.reset_index().to_json('tags.json', orient='records')
+    return df_tags.reset_index()
