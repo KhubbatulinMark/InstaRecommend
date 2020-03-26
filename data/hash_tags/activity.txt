@@ -1,2 +1,8 @@
 #morningwalk
 #drive
+#activity
+#funactivity
+#winteractivity
+#weekendactivity
+#outdooractivity
+#letsgosomewhere

@@ -2,6 +2,7 @@ import os
 import re
 import json
 import pandas as pd
+from string import ascii_letters
 
 #%% Create dataframe
 
@@ -98,3 +99,13 @@ def exist_hashtag(path, type='csv'):
     if type == 'json':
         df_tags.reset_index().to_json('tags.json', orient='records')
     return df_tags.reset_index()
+
+def ascii_tag(tag):
+    return all(map(lambda c: c[1:] in ascii_letters, tag))
+
+def import_new_tags(path):
+    df = pd.read_csv(path)
+    df = df.apply(lambda x: re.findall(r'(#\w+)', str(x)))
+    df = df.apply(lambda x: '' if x == [] else x)
+    tags = pd.Series(df [df != ''].sum())
+    tags.to_csv('new_tags.csv')
